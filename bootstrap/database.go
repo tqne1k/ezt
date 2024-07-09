@@ -31,4 +31,5 @@ func InitDabaBase(env *Env) error {
 func Migrate(db *gorm.DB) {
 	// db migration jobs
 	db.AutoMigrate(&domain.User{})
+	db.AutoMigrate(&domain.Department{})
 }
