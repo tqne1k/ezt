@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  # eztrust:
+  #   image: registry.gitlab.com/kienqt98.act/eztrust/eztrust:v1
+  #   container_name: eztrust
+  #   env_file: .env
+  #   ports:
+  #     - "12345:12345"
+  #   restart: always
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    ports:
+      - "5432:5432"
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: Hrg45$5fds@34fhFG
+
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080

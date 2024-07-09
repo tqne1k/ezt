@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Relation</title>
+    <style>
+        /* CSS styles here */
+    </style>
+</head>
+<body>
+<div id="menu-container"></div>
+    <script src="/assets/menu.js"></script>
+    <h1>Add Relation</h1>
+    <form id="addRelationForm">
+        <label for="leftId">Left Object:</label>
+        <select id="leftId" name="leftId" onchange="checkDuplicate()">
+            <!-- Options will be populated dynamically -->
+        </select>
+        <br>
+        <label for="rightId">Right Object:</label>
+        <select id="rightId" name="rightId" onchange="checkDuplicate()">
+            <!-- Options will be populated dynamically -->
+        </select>
+        <br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description">
+        <br>
+        <button type="submit">Submit</button>
+        <p id="error" style="color: red; display: none;">Left and right objects cannot be the same.</p>
+    </form>
+
+    <script>
+        async function fetchObjects() {
+            const response = await fetch('http://localhost:9090/object');
+            const data = await response.json();
+            return data.objects;
+        }
+
+        async function populateObjectSelects() {
+            const objects = await fetchObjects();
+            const leftSelect = document.getElementById('leftId');
+            const rightSelect = document.getElementById('rightId');
+
+            objects.forEach(object => {
+                const option = document.createElement('option');
+                option.value = object.id;
+                option.textContent = object.name;
+                leftSelect.appendChild(option.cloneNode(true));
+                rightSelect.appendChild(option);
+            });
+        }
+
+            document.addEventListener('DOMContentLoaded', function() {
+        // Kích hoạt Select2 trên dropdown có id là leftId và rightId
+        $('#leftId, #rightId').select2({
+            placeholder: 'Search for an object',
+            allowClear: true // Cho phép xóa lựa chọn
+        });
+
+        // Thêm sự kiện onchange để kiểm tra trùng lặp khi giá trị thay đổi
+        $('#leftId, #rightId').on('change', function() {
+            checkDuplicate();
+        });
+    });
+
+    // Hàm kiểm tra trùng lặp giống như trong phiên bản trước
+    function checkDuplicate() {
+        const leftId = $('#leftId').val();
+        const rightId = $('#rightId').val();
+        const error = document.getElementById('error');
+
+        if (leftId === rightId) {
+            error.style.display = 'block';
+            document.querySelector('button[type="submit"]').disabled = true;
+        } else {
+            error.style.display = 'none';
+            document.querySelector('button[type="submit"]').disabled = false;
+        }
+    }
+
+
+        async function addRelation(relationData) {
+            const response = await fetch('http://localhost:9090/relation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(relationData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add relation');
+            }
+
+            alert('Relation added successfully!');
+        }
+
+        document.getElementById('addRelationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const leftId = document.getElementById('leftId').value;
+            const rightId = document.getElementById('rightId').value;
+            const description = document.getElementById('description').value;
+
+            const relationData = {
+                left_id: leftId,
+                right_id: rightId,
+                description: description
+            };
+
+            try {
+                await addRelation(relationData);
+            } catch (error) {
+                console.error(error);
+                alert('Failed to add relation. Please try again.');
+            }
+        });
+
+        populateObjectSelects();
+    </script>
+</body>
+</html>

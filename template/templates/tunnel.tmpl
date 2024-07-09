@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tunnels and Peers</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        .peer-table {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 95%;
+            border-collapse: collapse;
+        }
+        .peer-table th, .peer-table td {
+            border: 1px solid #ddd;
+            padding: 4px;
+        }
+        .peer-table th {
+            background-color: #e2e2e2;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tunnels and Peers</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Interface Name</th>
+                <th>Address</th>
+                <th>Listen Port</th>
+                <th>Listening Port</th>
+                <th>Save Config</th>
+                <th>MTU</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .tunnels}}
+                <tr>
+                    <td>{{.Interface.Name}}</td>
+                    <td>{{.Interface.Address}}</td>
+                    <td>{{.Interface.ListenPort}}</td>
+                    <td>{{.Interface.ListeningPort}}</td>
+                    <td>{{.Interface.SaveConfig}}</td>
+                    <td>{{.Interface.MTU}}</td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <table class="peer-table">
+                            <thead>
+                                <tr>
+                                    <th>Peer PublicKey</th>
+                                    <th>Endpoint</th>
+                                    <th>Allowed IPs</th>
+                                    <th>Persistent Keepalive</th>
+                                    <th>Latest Handshake</th>
+                                    <th>Transfer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{range .Peers}}
+                                    <tr>
+                                        <td>{{.PublicKey}}</td>
+                                        <td>{{.Endpoint}}</td>
+                                        <td>{{.AllowedIPs}}</td>
+                                        <td>{{.PersistentKeepalive}}</td>
+                                        <td>{{.LatestHandshake}}</td>
+                                        <td>{{.Transfer}}</td>
+                                    </tr>
+                                {{end}}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            {{end}}
+        </tbody>
+    </table>
+</body>
+</html>

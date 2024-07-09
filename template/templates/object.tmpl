@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Object List</title>
+    <style>
+        /* CSS styles here */
+    </style>
+</head>
+<body>
+<div id="menu-container"></div>
+    <script src="/assets/menu.js"></script>
+<h1>Object List</h1>
+
+<button onclick="goToAddObject()">Add Object</button>
+
+<table id="objectTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Born</th>
+            <th>Gender</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Table rows will be populated dynamically -->
+    </tbody>
+</table>
+
+<script>
+//    Function to fetch object list from API
+    function fetchObjectList() {
+        const objects = [];
+
+        {{range .data_objects}}
+            objects.push({
+                id: '{{.Id}}',
+                name: '{{.Name}}',
+                born: '{{.Born}}',
+                gender: '{{.Gender}}',
+                address: '{{.Address}}',
+                description: '{{.Description}}',
+                avatar: '{{.Avatar}}',
+                created_date: '{{.CreatedDate}}'
+            });
+        {{end}}
+
+        renderObjectList(objects);
+    }
+
+    // Function to render object list
+    function renderObjectList(objects) {
+        const tbody = document.querySelector('#objectTable tbody');
+        tbody.innerHTML = '';
+
+        objects.forEach(object => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${object.id}</td>
+                <td>${object.name}</td>
+                <td>${object.born}</td>
+                <td>${object.gender}</td>
+                <td>
+                    <button onclick="editObject('${object.id}')">Edit</button>
+                    <button onclick="deleteObject('${object.id}')">Delete</button>
+                    <button onclick="viewDetail('${object.id}')">Detail</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // Function to redirect to Add Object page
+    function goToAddObject() {
+        // Redirect to the Add Object page
+        window.location.href = 'http://localhost:9090/add_object_ui';
+    }
+
+    // Function to edit an object
+    function editObject(id) {
+        // Redirect to the Edit Object page with the ID parameter
+        window.location.href = `edit_object.html?id=${id}`;
+    }
+
+    // Function to delete an object
+    function deleteObject(id) {
+        const confirmed = confirm('Are you sure you want to delete this object?');
+        if (confirmed) {
+            // Perform delete operation, for example, send a request to the server
+            console.log(`Deleting object with ID: ${id}`);
+        }
+    }
+
+    // Function to view detail of an object
+    function viewDetail(id) {
+        // Redirect to the Detail page with the ID parameter
+        window.location.href = `object_detail.html?id=${id}`;
+    }
+
+    // Fetch object list when the page loads
+    fetchObjectList();
+</script>
+
+</body>
+</html>
