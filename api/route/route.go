@@ -26,4 +26,6 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db *gorm.DB, gin *gin.Engi
 	NewUserRouter(env, timeout, db, publicRouter)
 	// Public department
 	NewDepartmentRouter(env, timeout, db, publicRouter)
+	// Public tunnel
+	NewTunnelRouter(env, timeout, db, publicRouter)
 }
