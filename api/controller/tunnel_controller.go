@@ -1,14 +1,11 @@
 package controller
 
 import (
-	"encoding/json"
-	"eztrust/domain"
+	"eztrust/infra/grpc"
 	"eztrust/infra/queue"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type TunnelController struct {
@@ -17,24 +14,13 @@ type TunnelController struct {
 
 func (tunnelController *TunnelController) GetTunnelInfo(ctx *gin.Context) {
 	tunnelName := ctx.Query("tunnel_name")
-	// publish message to rabbitmq
-	cmdUuid := uuid.New().String()
-	cmd := map[string]interface{}{
-		"id":  cmdUuid,
-		"cmd": "get_tunnel_info",
-		"data": map[string]interface{}{
-			"tunnel_name": tunnelName,
-		},
-	}
-	cmdStr, _ := json.Marshal(cmd)
-	err := tunnelController.Rabbitmq.Publish("gateway-cmd", []byte(cmdStr), cmdUuid)
+	// Get tunnel info from grpc server
+	network, err := grpc.GetTunnelInfo(tunnelName)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, domain.ErrorResponse{
-			Message: "Failed to get tunnel info",
-			Status:  http.StatusInternalServerError,
-		})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	fmt.Println("cmdUuid", cmdUuid)
+
+	ctx.JSON(http.StatusOK, gin.H{"data": network})
 
 }

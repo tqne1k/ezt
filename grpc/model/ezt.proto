@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option go_package = "eztrust/grpc/model";
+
+
+package grpc;
+
+service HealthCheck {
+  rpc SayHi (HelloRequest) returns (HelloReply) {}
+}
+
+service TunnelInfo {
+  rpc GetTunnelInfo (GetTunnelRequest) returns (GetTunnelResponse) {}
+}
+
+message GetTunnelRequest {
+  string name = 1;
+  string public_key = 2;
+}
+
+message GetTunnelResponse {
+  string name = 1;
+  string public_key = 2;
+  string listening_port = 3;
+
+  repeated PeerInfo peer_info = 4;
+}
+
+message PeerInfo {
+  string public_key = 6;
+  string endpoint = 7;
+  string allowed_ips = 8;
+  string latest_handshake = 9;
+  string transfer = 10;
+  string persistent_keepalive = 11;
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}

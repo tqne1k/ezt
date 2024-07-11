@@ -12,5 +12,15 @@ type Network struct {
 	PublicKey      string `json:"public_key"`
 	PrivateKey     string `json:"private_key"`
 	NetworkAddress string `json:"network_address"`
-	ListeningPort  int    `json:"listening_port"`
+	ListeningPort  string `json:"listening_port"`
+
+	Peers []Peer `json:"peers"`
+}
+
+type Peer struct {
+	PublicKey       string `json:"public_key"`
+	Endpoint        string `json:"endpoint"`
+	AllowedIPs      string `json:"allowed_ips"`
+	LatestHandshake string `json:"latest_handshake"`
+	Transfer        string `json:"transfer"`
 }

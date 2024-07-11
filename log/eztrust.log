@@ -363,3 +363,9 @@
 {"level":"info","time":"2024-07-10T14:36:39+07:00","message":"Starting API  server..."}
 {"level":"info","fileLogging":true,"jsonLogOutput":false,"logDirectory":"log","fileName":"eztrust.log","maxSizeMB":100,"maxBackups":120,"maxAgeInDays":120,"time":"2024-07-10T14:37:38+07:00","message":"logging configured"}
 {"level":"info","time":"2024-07-10T14:37:38+07:00","message":"Starting API  server..."}
+{"level":"info","fileLogging":true,"jsonLogOutput":false,"logDirectory":"log","fileName":"eztrust.log","maxSizeMB":100,"maxBackups":120,"maxAgeInDays":120,"time":"2024-07-11T17:23:13+07:00","message":"logging configured"}
+{"level":"info","time":"2024-07-11T17:23:13+07:00","message":"Starting API  server..."}
+{"level":"info","fileLogging":true,"jsonLogOutput":false,"logDirectory":"log","fileName":"eztrust.log","maxSizeMB":100,"maxBackups":120,"maxAgeInDays":120,"time":"2024-07-11T17:25:35+07:00","message":"logging configured"}
+{"level":"info","time":"2024-07-11T17:25:35+07:00","message":"Starting API  server..."}
+{"level":"info","fileLogging":true,"jsonLogOutput":false,"logDirectory":"log","fileName":"eztrust.log","maxSizeMB":100,"maxBackups":120,"maxAgeInDays":120,"time":"2024-07-11T17:32:48+07:00","message":"logging configured"}
+{"level":"info","time":"2024-07-11T17:32:48+07:00","message":"Starting API  server..."}
