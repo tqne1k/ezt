@@ -13,13 +13,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-const (
-	defaultName = "world"
-)
-
 var (
 	addr = flag.String("addr", "10.10.0.1:50051", "the address to connect to")
-	name = flag.String("name", defaultName, "Name to greet")
 )
 
 func GetTunnelInfo(tunnelName string) (domain.Network, error) {
@@ -30,16 +25,10 @@ func GetTunnelInfo(tunnelName string) (domain.Network, error) {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	// c := pb.NewHealthCheckClient(conn)
 
 	// Contact the server and print out its response.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	// r, err := c.SayHi(ctx, &pb.HelloRequest{Name: *name})
-	// if err != nil {
-	// 	log.Fatalf("could not greet: %v", err)
-	// }
-	// log.Printf("Greeting: %s", r.GetMessage())
 
 	tunnelClient := pb.NewTunnelInfoClient(conn)
 
