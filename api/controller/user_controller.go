@@ -2,7 +2,6 @@ package controller
 
 import (
 	"eztrust/domain"
-	"eztrust/internal/wireguard"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -35,10 +34,10 @@ func (userController *UserController) CreateUser(ctx *gin.Context) {
 	}
 
 	// Generate client secret key
-	privateKey := wireguard.GeneratePrivateKey()
-	userRequest.PrivateKey = privateKey
-	publicKey := wireguard.GeneratePublicKey(privateKey)
-	userRequest.PublicKey = publicKey
+	// privateKey := wireguard.GeneratePrivateKey()
+	// userRequest.PrivateKey = privateKey
+	// publicKey := wireguard.GeneratePublicKey(privateKey)
+	// userRequest.PublicKey = publicKey
 
 	userController.Database.Create(&userRequest)
 	ctx.JSON(http.StatusOK, domain.SuccessResponse{

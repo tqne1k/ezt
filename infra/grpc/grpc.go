@@ -17,7 +17,7 @@ var (
 	addr = flag.String("addr", "10.10.0.1:50051", "the address to connect to")
 )
 
-func GetTunnelInfo(tunnelName string) (domain.Network, error) {
+func GetTunnelInfo(tunnelName string) (domain.NetworkResponse, error) {
 	flag.Parse()
 	// Set up a connection to the server.
 	conn, err := grpc.NewClient(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -37,14 +37,14 @@ func GetTunnelInfo(tunnelName string) (domain.Network, error) {
 		log.Fatalf("could not get tunnel info: %v", err)
 	}
 
-	network := domain.Network{
+	network := domain.NetworkResponse{
 		Name:          tunnelInfo.GetName(),
 		PublicKey:     tunnelInfo.GetPublicKey(),
 		ListeningPort: tunnelInfo.GetListeningPort(),
 	}
 
 	for _, peer := range tunnelInfo.GetPeerInfo() {
-		network.Peers = append(network.Peers, domain.Peer{
+		network.Devices = append(network.Devices, domain.Device{
 			PublicKey:       peer.GetPublicKey(),
 			Endpoint:        peer.GetEndpoint(),
 			AllowedIPs:      peer.GetAllowedIps(),

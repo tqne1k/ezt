@@ -14,7 +14,4 @@ type User struct {
 	// TODO: Temporary username and password for testing
 	Username string `gorm:"type:varchar(255);not null" json:"username"`
 	Password string `gorm:"type:varchar(255);not null" json:"password"`
-
-	PrivateKey string `gorm:"type:varchar(255);not null" json:"private_key"`
-	PublicKey  string `gorm:"type:varchar(255);not null" json:"public_key"`
 }

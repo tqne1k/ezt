@@ -13,6 +13,7 @@ import (
 func NewTunnelRouter(env *bootstrap.Env, timeout time.Duration, db *gorm.DB, group *gin.RouterGroup) {
 	tunnelController := controller.TunnelController{
 		Rabbitmq: &queue.Rabbitmq{},
+		Database: db,
 	}
-	group.POST("/tunnel", tunnelController.GetTunnelInfo)
+	group.GET("/tunnel", tunnelController.GetTunnelInfo)
 }

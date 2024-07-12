@@ -32,4 +32,7 @@ func Migrate(db *gorm.DB) {
 	// db migration jobs
 	db.AutoMigrate(&domain.User{})
 	db.AutoMigrate(&domain.Department{})
+	db.AutoMigrate(&domain.Device{})
+	db.AutoMigrate(&domain.Network{})
+	db.AutoMigrate(&domain.DepartmentNetwork{})
 }
