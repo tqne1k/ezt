@@ -11,6 +11,7 @@ import (
 	"time"
 
 	pb "eztrust/grpc/model"
+	"eztrust/internal/wireguard"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -70,6 +71,7 @@ func main() {
 			time.Sleep(2 * time.Second)
 			fmt.Println("Choose option 1.")
 			fmt.Println("Access Token: ", accessToken)
+			createTunnel()
 			return
 		case "2":
 			time.Sleep(2 * time.Second)
@@ -108,4 +110,8 @@ func login(username string, password string) (bool, string) {
 		return true, LoginResponse.AccessToken
 	}
 	return false, ""
+}
+
+func createTunnel() {
+	wireguard.CreateInterface("test1")
 }
