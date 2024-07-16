@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"time"
 
@@ -17,7 +18,7 @@ const (
 )
 
 var (
-	addr = flag.String("addr", "10.10.0.1:50051", "the address to connect to")
+	addr = flag.String("addr", "10.10.0.4:50051", "the address to connect to")
 	name = flag.String("name", defaultName, "Name to greet")
 )
 
@@ -29,22 +30,35 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewHealthCheckClient(conn)
+	client := pb.NewLoginClient(conn)
 
 	// Contact the server and print out its response.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SayHi(ctx, &pb.HelloRequest{Name: *name})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	log.Printf("Greeting: %s", r.GetMessage())
 
-	tunnelClient := pb.NewTunnelInfoClient(conn)
-
-	tunnelInfo, err := tunnelClient.GetTunnelInfo(ctx, &pb.GetTunnelRequest{Name: "wg0"})
+	r, err := client.UserLogin(ctx, &pb.LoginRequest{Username: "test", Password: "test"})
 	if err != nil {
-		log.Fatalf("could not get tunnel info: %v", err)
+		log.Fatalf("could not login: %v", err)
 	}
-	log.Printf("Tunnel info: %v", tunnelInfo)
+
+	fmt.Println(r)
+
+	// c := pb.NewHealthCheckClient(conn)
+
+	// // Contact the server and print out its response.
+	// ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	// defer cancel()
+	// r, err := c.SayHi(ctx, &pb.HelloRequest{Name: *name})
+	// if err != nil {
+	// 	log.Fatalf("could not greet: %v", err)
+	// }
+	// log.Printf("Greeting: %s", r.GetMessage())
+
+	// tunnelClient := pb.NewTunnelInfoClient(conn)
+
+	// tunnelInfo, err := tunnelClient.GetTunnelInfo(ctx, &pb.GetTunnelRequest{Name: "wg0"})
+	// if err != nil {
+	// 	log.Fatalf("could not get tunnel info: %v", err)
+	// }
+	// log.Printf("Tunnel info: %v", tunnelInfo)
 }

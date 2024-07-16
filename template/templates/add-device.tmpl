@@ -364,59 +364,25 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Networks Management</h1>
-                    <p class="mb-4">Networks management description feature here.</p>
+                    <h1 class="h3 mb-2 text-gray-800">Add New Device</h1>
+                    <p class="mb-4">Description feature here.</p>
 
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Network Information</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Device Information</h6>
                         </div>
                         <div class="card-body">
-                            Id: {{.network.Id}}<br>
-                            Name: {{.network.Name}}<br>
-                            Created Date: {{.network.CreatedDate}}<br>
-                            Network Address: {{.network.NetworkAddress}}<br>
-                        </div>
-                    </div>
-
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Devices</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Endpoint</th>
-                                            <th>Allowed IPs</th>
-                                            <th>Last Handshake</th>
-                                            <th>Data Transfer</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Endpoint</th>
-                                            <th>Allowed IPs</th>
-                                            <th>Last Handshake</th>
-                                            <th>Data Transfer</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                    {{range .network.Devices}}
-                                        <tr>
-                                            <td>{{.PublicKey}}</td>
-                                            <td>{{.Endpoint}}</td>
-                                            <td>{{.AllowedIPs}}</td>
-                                            <td>{{.LatestHandshake}}</td>
-                                            <td>{{.Transfer}}</td>
-                                        </tr>
-                                    {{end}}
-                                    </tbody>
-                                </table>
-                            </div>
+                            <form action="/add-device" method="post">
+                                <div class="form-group row">
+                                    <div class="col-sm-12 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="device_name" name="device_name"
+                                            placeholder="Device Name">
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-user btn-block" type="submit">
+                                    Register Account
+                                </button>
+                            </form>
                         </div>
                     </div>
 
@@ -455,7 +421,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+                        <span aria-hidden="true"></span>
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>

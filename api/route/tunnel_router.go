@@ -16,4 +16,6 @@ func NewTunnelRouter(env *bootstrap.Env, timeout time.Duration, db *gorm.DB, gro
 		Database: db,
 	}
 	group.GET("/tunnel", tunnelController.GetTunnelInfo)
+	group.GET("/add-device", tunnelController.AddDevice)
+	group.POST("/add-device", tunnelController.CreateDevice)
 }

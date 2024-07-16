@@ -4,9 +4,11 @@ import (
 	"eztrust/domain"
 	"eztrust/infra/grpc"
 	"eztrust/infra/queue"
+	"eztrust/internal/wireguard"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -47,5 +49,37 @@ func (tunnelController *TunnelController) GetTunnelInfo(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, "tunnel-management.tmpl", gin.H{
 		"title":   "Tunnel Management",
 		"network": NetworkResponse,
+	})
+}
+
+func (tunnelController *TunnelController) AddDevice(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "add-device.tmpl", gin.H{
+		"title": "Tunnel Management",
+	})
+}
+
+func (tunnelController *TunnelController) CreateDevice(ctx *gin.Context) {
+	deviceName := ctx.PostForm("device_name")
+
+	// Generate key pair
+	privateKey := wireguard.GeneratePrivateKey()
+	publicKey := wireguard.GeneratePublicKey(privateKey)
+
+	device := domain.Device{
+		Id:         uuid.New().String(),
+		Name:       deviceName,
+		PublicKey:  publicKey,
+		PrivateKey: privateKey,
+	}
+
+	// Save device to database
+	result := tunnelController.Database.Create(&device)
+	if result.Error != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"device_name": deviceName,
 	})
 }

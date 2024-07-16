@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "eztrust/grpc/model";
+
+package grpc;
+
+service Login {
+  rpc UserLogin (LoginRequest) returns (LoginResponse) {}
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string status = 1;
+  string message = 2;
+  string access_token = 3;
+}

@@ -3,6 +3,7 @@ package main
 import (
 	"eztrust/api/route"
 	"eztrust/bootstrap"
+	"eztrust/infra/grpc"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,9 @@ func main() {
 		MaxAge:                120,
 	}
 	bootstrap.ConfigureLogger(loggerConfig)
+
+	// Run gRPC server in a goroutine
+	go grpc.RunServer()
 
 	//	web api
 	gin := gin.Default()
